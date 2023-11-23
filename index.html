@@ -19,6 +19,8 @@
   <script>
     let modelPlaced = false;
     let flower;
+    let mixer;
+    const clock = new THREE.Clock();
 
     async function activateXR() {
       console.log("Activating XR...");
@@ -81,6 +83,8 @@
       // Load sunflower model
       loader.load("https://raw.githubusercontent.com/lolaaltamirano8/lolaaltamirano8.github.io/main/prensa_husillo.gltf", function (gltf) {
         flower = gltf.scene;
+        mixer = new THREE.AnimationMixer(flower);
+        mixer.clipAction(gltf.animations[0]).play();
         console.log("Sunflower model loaded");
       });
 
@@ -122,6 +126,11 @@
       };
       session.requestAnimationFrame(onXRFrame);
 
+      // Create OrbitControls
+      const controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enablePan = false;
+      controls.enableDamping = true;
+
       // Event listener for the "select" event (user pressing the screen)
       canvas.addEventListener("mousedown", (event) => {
         console.log("Mouse down event triggered");
@@ -131,19 +140,6 @@
           clone.position.copy(reticle.position);
           scene.add(clone);
           modelPlaced = true;
-        }
-      });
-
-      // Event listener for rotate and pinch gestures
-      canvas.addEventListener("mousemove", (event) => {
-        event.preventDefault();
-        console.log("Mouse move event:", event);
-        if (flower && modelPlaced) {
-          // Assuming a single touch for simplicity
-          // Rotate the model based on mouse movement
-          flower.rotation.y += event.clientX / window.innerWidth;
-          // Scale the model based on mouse movement
-          flower.scale.multiplyScalar((event.clientY / window.innerHeight) + 1);
         }
       });
     }
