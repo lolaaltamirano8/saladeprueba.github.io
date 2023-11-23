@@ -1,6 +1,5 @@
 //Código para detectar superficie, detectar al usuario tocando la pantalla (y dónde) y colocando el modelo únicamente con el primer toque.
 let modelPlaced = false; // Variable para rastrear si el modelo ya se colocó
-let flower; // Ahora flower es una variable global
 
     async function activateXR() {
       // Add a canvas element and initialize a WebGL context that is compatible with WebXR.
@@ -65,6 +64,7 @@ let flower; // Ahora flower es una variable global
       let flower;
       loader.load("https://raw.githubusercontent.com/lolaaltamirano8/lolaaltamirano8.github.io/main/prensa_husillo.gltf", function (gltf) {
         flower = gltf.scene;
+          setupGestures(camera, renderer, flower);
       });
 
       // Create a render loop that allows us to draw on the AR view.
@@ -101,7 +101,6 @@ let flower; // Ahora flower es una variable global
 
           // Render the scene with THREE.WebGLRenderer.
           renderer.render(scene, camera)
-          setupGestures(camera, renderer, flower);
         }
       }
       session.requestAnimationFrame(onXRFrame);
