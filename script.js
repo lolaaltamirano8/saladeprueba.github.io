@@ -1,3 +1,4 @@
+//Código para detectar superficie, detectar al usuario tocando la pantalla (y dónde) y colocando el modelo únicamente con el primer toque.
 let modelPlaced = false; // Variable para rastrear si el modelo ya se colocó
 
 async function activateXR() {
@@ -94,4 +95,22 @@ async function activateXR() {
         const hitPose = hitTestResults[0].getPose(referenceSpace);
         reticle.visible = true;
         reticle.position.set(hitPose.transform.position.x, hitPose.transform.position.y, hitPose.transform.position.z)
-        ret
+        reticle.updateMatrixWorld(true);
+      }
+
+      // Render the scene with THREE.WebGLRenderer.
+      renderer.render(scene, camera)
+    }
+  }
+  session.requestAnimationFrame(onXRFrame);
+
+  // Event listener for the "select" event (user pressing the screen)
+  session.addEventListener("select", (event) => {
+    if (flower && !modelPlaced) { // Verificar si el modelo existe y aún no se ha colocado
+      const clone = flower.clone();
+      clone.position.copy(reticle.position);
+      scene.add(clone);
+      modelPlaced = true; // Actualizar la variable para indicar que el modelo se ha colocado
+    }
+  });
+}
