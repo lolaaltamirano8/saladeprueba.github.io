@@ -1,13 +1,5 @@
 // gesture.js
-let initialScale = 1;
-
-function handlePinch(event) {
-  if (flower) {
-    flower.scale.set(initialScale * event.scale, initialScale * event.scale, initialScale * event.scale);
-  }
-}
-
-function setupGestures(camera, renderer) {
+function setupGestures(camera, renderer, flower) {
   const hammer = new Hammer(renderer.domElement);
   const gestures = new THREE.GestureHandler(camera, renderer.domElement);
 
@@ -16,17 +8,24 @@ function setupGestures(camera, renderer) {
   });
 
   hammer.on('pinchstart', function (event) {
-    initialScale = flower ? flower.scale.x : 1;
+    // Puedes realizar acciones adicionales cuando comienza el gesto de pellizco.
   });
 
-  hammer.on('pinch', handlePinch);
+  hammer.on('pinch', function (event) {
+    if (flower) {
+      // Escala el modelo en función del gesto de pellizco.
+      flower.scale.set(event.scale, event.scale, event.scale);
+    }
+  });
 
   gestures.addEventListener('pinchstart', function (event) {
-    initialScale = flower ? flower.scale.x : 1;
+    // Puedes realizar acciones adicionales cuando comienza el gesto de pellizco.
   });
 
-  gestures.addEventListener('pinchmove', handlePinch);
+  gestures.addEventListener('pinchmove', function (event) {
+    if (flower) {
+      // Escala el modelo en función del gesto de pellizco.
+      flower.scale.set(event.scale, event.scale, event.scale);
+    }
+  });
 }
-
-// Additional code for other gestures can be added here if needed
-
