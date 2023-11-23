@@ -1,5 +1,6 @@
 //Código para detectar superficie, detectar al usuario tocando la pantalla (y dónde) y colocando el modelo únicamente con el primer toque.
 let modelPlaced = false; // Variable para rastrear si el modelo ya se colocó
+let flower; // Ahora flower es una variable global
 
     async function activateXR() {
       // Add a canvas element and initialize a WebGL context that is compatible with WebXR.
