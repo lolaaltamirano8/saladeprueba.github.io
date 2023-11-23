@@ -9,9 +9,6 @@
   <!-- three.js -->
   <script src="https://unpkg.com/three@0.126.0/build/three.js"></script>
   <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
-
-  <!-- Hammer.js -->
-  <script src="https://unpkg.com/hammerjs@2.0.8/hammer.min.js"></script>
 </head>
 
 <body>
@@ -22,7 +19,6 @@
   <script>
     let modelPlaced = false;
     let flower;
-    let mc;
 
     async function activateXR() {
       console.log("Activating XR...");
@@ -126,12 +122,9 @@
       };
       session.requestAnimationFrame(onXRFrame);
 
-      // Create a new Hammer instance for the canvas
-      mc = new Hammer(canvas);
-
       // Event listener for the "select" event (user pressing the screen)
-      session.addEventListener("select", (event) => {
-        console.log("Select event triggered");
+      canvas.addEventListener("touchstart", (event) => {
+        console.log("Touch start event triggered");
         if (flower && !modelPlaced) {
           console.log("Placing the model");
           const clone = flower.clone();
@@ -142,15 +135,17 @@
       });
 
       // Event listener for rotate and pinch gestures
-      mc.on("rotate pinch", (event) => {
-        console.log("Gestures detected:", event);
+      canvas.addEventListener("touchmove", (event) => {
+        event.preventDefault();
+        console.log("Touch move event:", event.touches);
         if (flower && modelPlaced) {
-          if (event.type === "rotate") {
-            // Rotate the model based on the rotate event
-            flower.rotation.y += event.rotation;
-          } else if (event.type === "pinch") {
-            // Scale the model based on the pinch event
-            flower.scale.multiplyScalar(event.scale);
+          // Assuming a single touch for simplicity
+          const touch = event.touches[0];
+          if (touch) {
+            // Rotate the model based on touch movement
+            flower.rotation.y += touch.clientX / window.innerWidth;
+            // Scale the model based on touch movement
+            flower.scale.multiplyScalar((touch.clientY / window.innerHeight) + 1);
           }
         }
       });
@@ -159,3 +154,4 @@
 </body>
 
 </html>
+
