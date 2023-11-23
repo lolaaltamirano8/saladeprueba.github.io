@@ -1,4 +1,3 @@
-//Código para detectar superficie, detectar al usuario tocando la pantalla (y dónde) y colocando el modelo únicamente con el primer toque.
 let modelPlaced = false;
 let flower;
 let pinchStart = 0;
@@ -103,7 +102,7 @@ async function activateXR() {
 
   function onTouchMove(event) {
     if (event.touches.length === 2) {
-      const pinchCurrent = Math.hypot(
+      pinchCurrent = Math.hypot(
         event.touches[0].clientX - event.touches[1].clientX,
         event.touches[0].clientY - event.touches[1].clientY
       );
@@ -115,14 +114,17 @@ async function activateXR() {
     pinchCurrent = undefined;
   }
 
-  session.addEventListener("select", (event) => {
+  session.addEventListener("selectstart", onSelectStart);
+  session.addEventListener("selectend", onSelectEnd);
+
+  function onSelectStart(event) {
     if (flower && !modelPlaced) {
       const clone = flower.clone();
       clone.position.copy(reticle.position);
       scene.add(clone);
       modelPlaced = true;
     }
-  });
+  }
 }
 
 function setupGestures(camera, renderer, model) {
