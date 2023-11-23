@@ -123,8 +123,8 @@
       session.requestAnimationFrame(onXRFrame);
 
       // Event listener for the "select" event (user pressing the screen)
-      canvas.addEventListener("touchstart", (event) => {
-        console.log("Touch start event triggered");
+      canvas.addEventListener("mousedown", (event) => {
+        console.log("Mouse down event triggered");
         if (flower && !modelPlaced) {
           console.log("Placing the model");
           const clone = flower.clone();
@@ -135,18 +135,15 @@
       });
 
       // Event listener for rotate and pinch gestures
-      canvas.addEventListener("touchmove", (event) => {
+      canvas.addEventListener("mousemove", (event) => {
         event.preventDefault();
-        console.log("Touch move event:", event.touches);
+        console.log("Mouse move event:", event);
         if (flower && modelPlaced) {
           // Assuming a single touch for simplicity
-          const touch = event.touches[0];
-          if (touch) {
-            // Rotate the model based on touch movement
-            flower.rotation.y += touch.clientX / window.innerWidth;
-            // Scale the model based on touch movement
-            flower.scale.multiplyScalar((touch.clientY / window.innerHeight) + 1);
-          }
+          // Rotate the model based on mouse movement
+          flower.rotation.y += event.clientX / window.innerWidth;
+          // Scale the model based on mouse movement
+          flower.scale.multiplyScalar((event.clientY / window.innerHeight) + 1);
         }
       });
     }
