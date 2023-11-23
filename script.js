@@ -1,8 +1,8 @@
 //Código para detectar superficie, detectar al usuario tocando la pantalla (y dónde) y colocando el modelo únicamente con el primer toque.
 let modelPlaced = false;
 let flower;
-let pinchScaleStart = 0;
-let pinchScaleCurrent = 1;
+let pinchStart = 0;
+let pinchCurrent = 0;
 
 async function activateXR() {
   const canvas = document.createElement("canvas");
@@ -77,9 +77,9 @@ async function activateXR() {
       }
 
       // Escalar el modelo con el gesto de pellizco
-      if (pinchScaleStart !== undefined && pinchScaleCurrent !== undefined) {
-        const pinchScaleDelta = pinchScaleCurrent - pinchScaleStart;
-        const scale = Math.max(0.1, pinchScaleDelta + 1);
+      if (pinchStart !== undefined && pinchCurrent !== undefined) {
+        const pinchDelta = pinchCurrent - pinchStart;
+        const scale = Math.max(0.1, flower.scale.x + pinchDelta);
         flower.scale.set(scale, scale, scale);
       }
 
@@ -88,13 +88,32 @@ async function activateXR() {
   }
   session.requestAnimationFrame(onXRFrame);
 
-  session.addEventListener("selectstart", (event) => {
-    pinchScaleStart = event.inputSource.gamepad.buttons[1].value; // assuming button 1 is the touchpad or trigger
-  });
+  canvas.addEventListener('touchstart', onTouchStart);
+  canvas.addEventListener('touchmove', onTouchMove);
+  canvas.addEventListener('touchend', onTouchEnd);
 
-  session.addEventListener("selectend", (event) => {
-    pinchScaleStart = undefined;
-  });
+  function onTouchStart(event) {
+    if (event.touches.length === 2) {
+      pinchStart = Math.hypot(
+        event.touches[0].clientX - event.touches[1].clientX,
+        event.touches[0].clientY - event.touches[1].clientY
+      );
+    }
+  }
+
+  function onTouchMove(event) {
+    if (event.touches.length === 2) {
+      const pinchCurrent = Math.hypot(
+        event.touches[0].clientX - event.touches[1].clientX,
+        event.touches[0].clientY - event.touches[1].clientY
+      );
+    }
+  }
+
+  function onTouchEnd(event) {
+    pinchStart = undefined;
+    pinchCurrent = undefined;
+  }
 
   session.addEventListener("select", (event) => {
     if (flower && !modelPlaced) {
