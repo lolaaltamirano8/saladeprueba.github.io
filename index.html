@@ -132,20 +132,19 @@
       }
     });
 
-    const mc = new Hammer.Manager(canvas);
-    mc.add(new Hammer.Rotate({ threshold: 0 }));
-    mc.add(new Hammer.Pinch());
-    mc.on("rotate pinch", (event) => {
-      if (flower && !modelPlaced) {
+   mc.on("rotate pinch", (event) => {
+    console.log(event);
+    if (flower && !modelPlaced) {
         if (event.type === "rotate") {
-          // Rotar el modelo en función del evento de rotación
-          flower.rotation.y += event.rotation;
+            // Rotar el modelo en función del evento de rotación
+            flower.rotation.y += event.rotation;
         } else if (event.type === "pinch") {
-          // Escalar el modelo en función del evento de pellizco
-          flower.scale.multiplyScalar(event.scale);
+            // Escalar el modelo en función del evento de pellizco
+            flower.scale.multiplyScalar(event.scale);
         }
-      }
-    });
+    }
+});
+
   }
 </script>
 </body>
