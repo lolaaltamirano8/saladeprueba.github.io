@@ -25,6 +25,8 @@
     let mc;
 
     async function activateXR() {
+      console.log("Activating XR...");
+
       // Add a canvas element and initialize a WebGL context that is compatible with WebXR.
       const canvas = document.createElement("canvas");
       document.body.appendChild(canvas);
@@ -54,6 +56,8 @@
 
       // Initialize a WebXR session using "immersive-ar" with hit-test feature.
       const session = await navigator.xr.requestSession("immersive-ar", { requiredFeatures: ['hit-test'] });
+      console.log("XR session activated");
+
       session.updateRenderState({
         baseLayer: new XRWebGLLayer(session, gl)
       });
@@ -75,11 +79,13 @@
         reticle = gltf.scene;
         reticle.visible = false;
         scene.add(reticle);
+        console.log("Reticle loaded");
       });
 
       // Load sunflower model
       loader.load("https://raw.githubusercontent.com/lolaaltamirano8/lolaaltamirano8.github.io/main/prensa_husillo.gltf", function (gltf) {
         flower = gltf.scene;
+        console.log("Sunflower model loaded");
       });
 
       // Create a render loop that allows us to draw on the AR view.
@@ -125,7 +131,9 @@
 
       // Event listener for the "select" event (user pressing the screen)
       session.addEventListener("select", (event) => {
+        console.log("Select event triggered");
         if (flower && !modelPlaced) {
+          console.log("Placing the model");
           const clone = flower.clone();
           clone.position.copy(reticle.position);
           scene.add(clone);
@@ -135,7 +143,7 @@
 
       // Event listener for rotate and pinch gestures
       mc.on("rotate pinch", (event) => {
-        console.log(event);
+        console.log("Gestures detected:", event);
         if (flower && modelPlaced) {
           if (event.type === "rotate") {
             // Rotate the model based on the rotate event
