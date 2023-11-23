@@ -101,6 +101,7 @@ let flower; // Ahora flower es una variable global
 
           // Render the scene with THREE.WebGLRenderer.
           renderer.render(scene, camera)
+          setupGestures(camera, renderer);
         }
       }
       session.requestAnimationFrame(onXRFrame);
