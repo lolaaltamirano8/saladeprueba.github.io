@@ -21,8 +21,8 @@
 
   <script>
     let modelPlaced = false;
+    let flower;
     let mc;
-    let flower; // Move the flower variable to a higher scope
 
     async function activateXR() {
       // Add a canvas element and initialize a WebGL context that is compatible with WebXR.
@@ -120,6 +120,7 @@
       };
       session.requestAnimationFrame(onXRFrame);
 
+      // Create a new Hammer instance for the canvas
       mc = new Hammer(canvas);
 
       // Event listener for the "select" event (user pressing the screen)
@@ -132,19 +133,19 @@
         }
       });
 
+      // Event listener for rotate and pinch gestures
       mc.on("rotate pinch", (event) => {
         console.log(event);
         if (flower && modelPlaced) {
           if (event.type === "rotate") {
-            // Rotar el modelo en función del evento de rotación
+            // Rotate the model based on the rotate event
             flower.rotation.y += event.rotation;
           } else if (event.type === "pinch") {
-            // Escalar el modelo en función del evento de pellizco
+            // Scale the model based on the pinch event
             flower.scale.multiplyScalar(event.scale);
           }
         }
       });
-
     }
   </script>
 </body>
