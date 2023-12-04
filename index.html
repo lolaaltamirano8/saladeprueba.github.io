@@ -1,26 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARKit GLTF Example</title>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/jeromeetienne/AR.js/3.3.0/aframe/build/aframe-ar.js"></script>
-</head>
-<body>
-    <a-scene embedded arjs>
-        <!-- Define AR Session with AR.js -->
-        <a-marker preset="hiro">
-            <!-- Define GLTF Model -->
-            <a-entity
-                gltf-model="url(prensa_husillo.gltf)"
-                scale="0.5 0.5 0.5">
-            </a-entity>
-        </a-marker>
-        <!-- Camera Rig for AR.js -->
-        <a-entity camera></a-entity>
-    </a-scene>
-</body>
+<html lan="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AR Model Viewer Example</title>
+    <!-- Agrega el script de Model Viewer -->
+        <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.esm.min.js"></script>
+    </head>
+
+    <body>
+         <!-- Agrega el componente de Model Viewer -->
+         <model-viewer
+              src="url(Torno.gltf)"
+              alt="A 3D model"
+              ar
+              ar-scale="fixed"
+              camera-controls
+              touch-action="pan-y"
+              xr-environment>            
+         </model-viewer>
+    </body>
+    
 </html>
-
-
