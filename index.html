@@ -1,24 +1,27 @@
-<html lan="en">
-    
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>AR Model Viewer Example</title>
-    <!-- Agrega el script de Model Viewer -->
-        <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.esm.min.js"></script>
-    </head>
-
-    <body>
-         <!-- Agrega el componente de Model Viewer -->
-         <model-viewer
-              src="https://github.com/lolaaltamirano8/saladeprueba.github.io/blob/ed0db5f2c8342381997d4b3eafff933b35e6a21e/Torno%20GLB.glb"
-              alt="A 3D model"
-              ar
-              ar-scale="fixed"
-              camera-controls
-              touch-action="pan-y"
-              xr-environment>            
-         </model-viewer>
-    </body>
-    
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>&lt;model-viewer&gt; template</title>
+    <meta charset="utf-8">
+    <meta name="description" content="&lt;model-viewer&gt; template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link type="text/css" href="./styles.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <!-- <model-viewer> HTML element -->
+    <model-viewer src="Torno GLB.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls poster="poster.webp" shadow-intensity="1">
+      <div class="progress-bar hide" slot="progress-bar">
+          <div class="update-bar"></div>
+      </div>
+      <button slot="ar-button" id="ar-button">
+          View in your space
+      </button>
+      <div id="ar-prompt">
+          <img src="ar_hand_prompt.png">
+      </div>
+    </model-viewer>  
+    <script src="script.js"></script>
+    <!-- Loads <model-viewer> for browsers: -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.2.0/model-viewer.min.js"></script>
+  </body>
 </html>
